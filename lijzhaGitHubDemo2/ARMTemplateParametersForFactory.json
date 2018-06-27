@@ -16,6 +16,12 @@
 		},
 		"OutputDataset_properties_typeProperties_folderPath": {
 			"value": "adftutorial/output"
+		},
+		"testDataset_properties_typeProperties_fileName": {
+			"value": "@CONCAT(pipeline().RunId, '.txt')"
+		},
+		"testDataset_properties_typeProperties_folderPath": {
+			"value": "adftutorial/output"
 		}
 	}
 }
