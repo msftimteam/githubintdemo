@@ -1,6 +1,7 @@
 {
 	"name": "testDataset",
 	"properties": {
+		"description": "test dataset",
 		"linkedServiceName": {
 			"referenceName": "AzureStorageLinkedService",
 			"type": "LinkedServiceReference"
