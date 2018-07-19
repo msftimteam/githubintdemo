@@ -1,1 +1,103 @@
-{}
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "lijzhaGitHubDemo"
+		},
+		"InputDataset_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "test_input.txt"
+		},
+		"InputDataset_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "adftutorial/input"
+		},
+		"OutputDataset_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT(pipeline().RunId, '.txt')"
+		},
+		"OutputDataset_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "adftutorial/output"
+		},
+		"testDataset_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT(pipeline().RunId, '.txt')"
+		},
+		"testDataset_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "adftutorial/output"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/InputDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "testsetetseste\ntest teste",
+				"linkedServiceName": {
+					"referenceName": "AzureStorageLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureBlob",
+				"typeProperties": {
+					"format": {
+						"type": "JsonFormat"
+					},
+					"fileName": "[parameters('InputDataset_properties_typeProperties_fileName')]",
+					"folderPath": "[parameters('InputDataset_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OutputDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "tsetsetestesttstset",
+				"linkedServiceName": {
+					"referenceName": "AzureStorageLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureBlob",
+				"typeProperties": {
+					"fileName": {
+						"value": "[parameters('OutputDataset_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('OutputDataset_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/testDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "tsetsetestesttstset",
+				"linkedServiceName": {
+					"referenceName": "AzureStorageLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureBlob",
+				"typeProperties": {
+					"fileName": {
+						"value": "[parameters('testDataset_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('testDataset_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
