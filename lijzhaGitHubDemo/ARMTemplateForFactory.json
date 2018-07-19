@@ -7,6 +7,10 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "lijzhaGitHubDemo"
 		},
+		"AzureStorageLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureStorageLinkedService'"
+		},
 		"InputDataset_properties_typeProperties_fileName": {
 			"type": "string",
 			"defaultValue": "test_input.txt"
@@ -20,6 +24,14 @@
 			"defaultValue": "@CONCAT(pipeline().RunId, '.txt')"
 		},
 		"OutputDataset_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "adftutorial/output"
+		},
+		"testDataset_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@CONCAT(pipeline().RunId, '.txt')"
+		},
+		"testDataset_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "adftutorial/output"
 		}
@@ -83,7 +95,7 @@
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "testsetetseste",
+				"description": "testsetetseste\ntest teste",
 				"linkedServiceName": {
 					"referenceName": "AzureStorageLinkedService",
 					"type": "LinkedServiceReference"
@@ -106,7 +118,7 @@
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "tsetsetestesttstset, test update",
+				"description": "tsetsetestesttstset",
 				"linkedServiceName": {
 					"referenceName": "AzureStorageLinkedService",
 					"type": "LinkedServiceReference"
@@ -125,17 +137,27 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/testDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"type": "AzureStorage",
+				"description": "tsetsetestesttstset",
+				"linkedServiceName": {
+					"referenceName": "AzureStorageLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureBlob",
 				"typeProperties": {
-					"connectionString": "DefaultEndpointsProtocol=https;AccountName=lijzha;",
-					"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkxJSlpIQUdJVEhVQkRFTU9fZTVlMjM5NDktNjJiYS00M2RhLThjODItYjRlMzFiODY4OWQzIg0KfQ=="
+					"fileName": {
+						"value": "[parameters('testDataset_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('testDataset_properties_typeProperties_folderPath')]"
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureStorageLinkedService')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureStorageLinkedService')]",
@@ -144,8 +166,10 @@
 			"properties": {
 				"type": "AzureStorage",
 				"typeProperties": {
-					"connectionString": "DefaultEndpointsProtocol=https;AccountName=lijzha;",
-					"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkxJSlpIQUdJVEhVQkRFTU9fNzA0ZjcwMGMtNTJkMy00NThkLTk0NzMtZThhMzQ2ZjhiNDI5Ig0KfQ=="
+					"connectionString": {
+						"type": "SecureString",
+						"value": "[parameters('AzureStorageLinkedService_connectionString')]"
+					}
 				}
 			},
 			"dependsOn": []
